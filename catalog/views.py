@@ -1,9 +1,16 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from catalog.models import Product
+
+
 # Create your views here.
 def home(request):
-    return render(request, "home.html")
+    latest_products = Product.objects.all().order_by("-created_at")[:5]
+    print("Последние 5 продуктов:")
+    for product in latest_products:
+        print(product)
+    return render(request, "home.html", )
 
 def contacts(request):
     if request.method == "POST":
