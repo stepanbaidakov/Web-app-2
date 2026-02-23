@@ -33,7 +33,7 @@ class Product(models.Model):
         verbose_name_plural = "Products"
         ordering = ['name']
 
-class Contacts(models.Model):
+class ContactInfo(models.Model):
     name = models.CharField(max_length=100, verbose_name="Имя")
     phone = models.CharField(max_length=15, verbose_name="Номер телефона")
     email = models.EmailField(verbose_name="Почта")
