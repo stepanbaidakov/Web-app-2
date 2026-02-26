@@ -40,6 +40,13 @@
                     </table>
                 </div>
             </div>
+            <div>Контактные данные:
+                {% for contact_info in contact_infos %}
+                <p>{{ contact_info.name }}</p>
+                <p>{{ contact_info.phone }}</p>
+                <p>{{ contact_info.email }}</p>
+                {% endfor %}
+            </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12">
             <div class="card mb-4 box-shadow">
@@ -51,15 +58,18 @@
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="name">Имя</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Ваше имя" required>
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Ваше имя"
+                                   required>
                         </div>
                         <div class="mb-3">
                             <label for="phone">Телефон</label>
-                            <input type="text" name="phone" class="form-control" id="phone" placeholder="Контактный телефон" required>
+                            <input type="text" name="phone" class="form-control" id="phone"
+                                   placeholder="Контактный телефон" required>
                         </div>
                         <div class="mb-3">
                             <label for="message">Сообщение</label>
-                            <textarea type="text" name="message" class="form-control" id="message" placeholder="Контактный телефон" required></textarea>
+                            <textarea type="text" name="message" class="form-control" id="message"
+                                      placeholder="Контактный телефон" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Отправить</button>
                     </form>
