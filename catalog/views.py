@@ -33,12 +33,14 @@ def add_product(request):
         price = request.POST.get("price")
         description = request.POST.get("description")
         category_name = request.POST.get("category")
+        image = request.FILES.get("image")
         category_obj, _ = Category.objects.get_or_create(name=category_name)
         Product.objects.create(
             name=name,
             price=price,
             description=description,
-            category=category_obj
+            category=category_obj,
+            image=image,
         )
 
         return redirect("add_product")

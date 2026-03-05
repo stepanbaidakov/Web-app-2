@@ -15,7 +15,7 @@
                     <h4 class="my-0 font-weight-normal">Добавьте товар</h4>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="" class="form-floating">
+                    <form method="post" action="" class="form-floating" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="name">Название</label>
@@ -36,6 +36,10 @@
                             <label for="category">Категория</label>
                             <input type="text" name="category" class="form-control" id="category"
                                    placeholder="Категория товара" required>
+                        </div><div class="mb-3">
+                            <label for="image">Изображение</label>
+                            <input type="file" name="image" class="form-control" id="image"
+                                   placeholder="Изображение товара" required>
                         </div>
                         <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Добавить</button>
                     </form>
