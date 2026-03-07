@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+
+{% block header %}
+<h1 class="display-4">Список записей</h1>
+{% endblock %}
+{% block content %}
+<div class="row text-center">
+    {% for blog in blogs %}
+    <div class="col-3">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{blog.title}}</h4>
+            </div>
+            <div class="card-body">
+
+                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                    <li>- {{blog.publication_date|date:"d M Y"}}</li>
+                    <li>- {{blog.content | truncatechars:100 }}</li>
+                </ul>
+                <a class="btn btn-primary" href="{% url 'blog:blog_detail' blog.pk %}">Читать</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

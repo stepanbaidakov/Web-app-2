@@ -1,0 +1,18 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Удаление{% endblock %}
+{% block header %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Удаление</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<h2>Удалить запись</h2>
+<p>Вы уверены, что хотите удалить "{{ blog.title }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a href="{% url 'blog:blog_detail' blog.pk %}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}
