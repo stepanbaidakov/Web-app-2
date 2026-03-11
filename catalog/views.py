@@ -1,29 +1,47 @@
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from catalog.models import Product, ContactInfo
+from catalog.forms import ProductForm
+from django.urls import reverse_lazy
 
 
 # Create your views here.
 
-class ProductListView(ListView):
-    model = Product
-    template_name = "home.html"
-    context_object_name = "products"
-
-
 class ContactInfoCreateView(CreateView):
     model = ContactInfo
     fields = ['name', 'email', 'phone']
-    template_name = "contacts.html"
+    template_name = "catalog/contacts.html"
 
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = "product_info.html"
+    template_name = "catalog/product_detail.html"
     context_object_name = "product"
+
+
+class ProductListView(ListView):
+    model = Product
+    template_name = "catalog/products_list.html"
+    context_object_name = "products"
 
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ["name", "price", "description", "category", "image"]
-    template_name = "add_product.html"
+    form_class = ProductForm
+    template_name = "catalog/product_form.html"
+    success_url = reverse_lazy('catalog:products_list')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "catalog/product_form.html"
+
+    def get_success_url(self):
+        return reverse_lazy("catalog:product_detail", kwargs={"pk": self.object.pk})
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = "catalog/product_delete.html"
+    context_object_name = "product"

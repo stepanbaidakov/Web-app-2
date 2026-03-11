@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'catalog/base.html' %}
 
 {% block header %}
 <h1 class="display-4">Skystore</h1>
@@ -19,7 +19,7 @@
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                     <li>- {{product.description | truncatechars:100 }}</li>
                 </ul>
-                <a href="{% url 'product_info' product.id %}"
+                <a href="{% url 'catalog:product_detail' product.id %}"
                    class="btn btn-primary">
                     Подробнее
                 </a>
