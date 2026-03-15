@@ -1,20 +1,47 @@
-from django.http import HttpResponse
-from django.shortcuts import render
-
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 from catalog.models import Product, ContactInfo
+from catalog.forms import ProductForm
+from django.urls import reverse_lazy
 
 
 # Create your views here.
-def home(request):
-    latest_products = Product.objects.all().order_by("-created_at")[:5]
-    print("Последние 5 продуктов:")
-    for product in latest_products:
-        print(product)
-    return render(request, "home.html", )
 
-def contacts(request):
-    contact_infos = ContactInfo.objects.all()
-    if request.method == "POST":
-        name = request.POST.get("name")
-        return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
-    return render(request, "contacts.html", {"contact_infos": contact_infos})
+class ContactInfoCreateView(CreateView):
+    model = ContactInfo
+    fields = ['name', 'email', 'phone']
+    template_name = "catalog/contacts.html"
+
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "catalog/product_detail.html"
+    context_object_name = "product"
+
+
+class ProductListView(ListView):
+    model = Product
+    template_name = "catalog/products_list.html"
+    context_object_name = "products"
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "catalog/product_form.html"
+    success_url = reverse_lazy('catalog:products_list')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "catalog/product_form.html"
+
+    def get_success_url(self):
+        return reverse_lazy("catalog:product_detail", kwargs={"pk": self.object.pk})
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = "catalog/product_delete.html"
+    context_object_name = "product"

@@ -1,0 +1,19 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Детали товара{% endblock %}
+
+{% include "templates/product.html" %}
+
+{% block content %}
+<h2>Детали товара</h2>
+<p>Название: {{ product.name }}</p>
+<p>Описание: {{ product.description }}</p>
+<img src="{{ product.image.url }}" alt="{{ product.name }}">
+<p>Категория: {{ product.category }}</p>
+<p>Цена: {{ product.price }}</p>
+<p>Дата создания: {{ product.created_at }}</p>
+<p>Дата последнего изменения: {{ product.updated_at }}</p>
+<a href="{% url 'catalog:product_edit' product.pk %}" class="btn btn-secondary">Редактировать</a>
+<a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+<a href="{% url 'catalog:products_list' %}" class="btn btn-primary">Вернуться к списку</a>
+{% endblock %}
