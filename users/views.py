@@ -40,3 +40,4 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
 class UserLoginView(LoginView):
     form_class = CustomLoginForm
+    template_name = "users/login.html"

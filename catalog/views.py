@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
-class ContactInfoCreateView(LoginRequiredMixin, CreateView):
+class ContactInfoCreateView(CreateView):
     model = ContactInfo
     fields = ['name', 'email', 'phone']
     template_name = "catalog/contacts.html"
