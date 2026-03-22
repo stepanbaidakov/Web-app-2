@@ -12,7 +12,9 @@
 <img src="{{ blog.photo.url }}" alt="{{ blog.title }}" class="thumbnail">
 <p>Просмотры: {{ blog.views }}</p>
 <p>Дата публикации: {{ blog.publication_date }}</p>
+{% if perms.blog.change_blog %}
 <a href="{% url 'blog:blog_edit' blog.pk %}" class="btn btn-secondary">Редактировать</a>
+{% endif %}
 <a href="{% url 'blog:blog_delete' blog.pk %}" class="btn btn-danger">Удалить</a>
 <a href="{% url 'blog:blogs_list' %}" class="btn btn-primary">Вернуться к списку</a>
 {% endblock %}
