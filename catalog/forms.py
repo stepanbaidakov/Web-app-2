@@ -21,19 +21,21 @@ class ProductForm(FormControlMixin, forms.ModelForm):
 
 
     def clean_name(self):
-        name = self.cleaned_data["name"].lower()
+        cleaned_name = self.cleaned_data["name"]  # Оригинал
+        check_name = cleaned_name.lower()
         for word in SPAM_WORDS:
-            if word in name:
+            if word in check_name:
                 raise ValidationError(f"Слово \"{word}\" является запрещенным словом в названии")
-        return name
+        return cleaned_name
 
 
     def clean_description(self):
-        description = self.cleaned_data["description"].lower()
+        cleaned_description = self.cleaned_data["description"]
+        check_description = cleaned_description.lower()
         for word in SPAM_WORDS:
-            if word in description:
+            if word in check_description:
                 raise ValidationError(f"Слово \"{word}\" является запрещенным словом в описании")
-        return description
+        return cleaned_description
 
 
     def clean_price(self):
@@ -44,7 +46,7 @@ class ProductForm(FormControlMixin, forms.ModelForm):
 
 
     def clean_image(self):
-        image = self.cleaned_data["image"]
+        image = self.cleaned_data.get("image")
         max_size_mb = 5
         if image.size > max_size_mb * 1024 * 1024:
             raise ValidationError(f"Файл слишком большой (не более {max_size_mb} МБ)")

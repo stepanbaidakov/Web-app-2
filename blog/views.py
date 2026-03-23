@@ -2,6 +2,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from blog.models import BlogArticle
 from django.urls import reverse_lazy, reverse
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 # Create your views here.
@@ -32,10 +33,15 @@ class BlogArticleDetailView(DetailView):
         return obj
 
 
-class BlogArticleUpdateView(UpdateView):
+class BlogArticleUpdateView(UpdateView, UserPassesTestMixin):
     model = BlogArticle
     fields = ["title", "content", "photo"]
     template_name = "blog/blog_form.html"
+
+    def test_func(self):
+        user = self.request.user
+        is_content_manager = user.has_perm('catalog.delete_product')
+        return is_content_manager
 
     def get_success_url(self):
         return reverse("blog:blog_detail", kwargs={"pk": self.object.pk})
