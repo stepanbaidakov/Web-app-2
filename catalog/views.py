@@ -1,12 +1,15 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView, View
-from catalog.models import Product, ContactInfo
+from catalog.models import Product, ContactInfo, Category
 from catalog.forms import ProductForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
-
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from .services import CategoryService
+from django.core.cache import cache
 # Create your views here.
 
 class ContactInfoCreateView(CreateView):
@@ -20,11 +23,22 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     template_name = "catalog/product_detail.html"
     context_object_name = "product"
 
+    @method_decorator(cache_page(60 * 15))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 
 class ProductListView(ListView):
     model = Product
     template_name = "catalog/products_list.html"
     context_object_name = "products"
+
+    def get_queryset(self):
+        queryset = cache.get("products_list")
+        if not queryset:
+            queryset = super().get_queryset()
+            cache.set("products_list", queryset, 60 * 15)
+        return queryset
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -73,3 +87,20 @@ class ProductUnpublishView(LoginRequiredMixin, View):
         product.is_active = False
         product.save()
         return redirect("catalog:products_list")
+
+
+class CategoryProductsView(DetailView):
+    model = Category
+    template_name = "catalog/category_detail.html"
+    context_object_name = "category"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.object.id
+        context["products"] = CategoryService.products_in_category(category_id)
+        return context
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = "catalog/categories_list.html"
+    context_object_name = "categories"

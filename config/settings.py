@@ -138,3 +138,10 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 LOGIN_REDIRECT_URL = 'catalog:products_list'
 LOGIN_URL = 'users:login'
+
+CACHES = {
+    'default': {
+        'BACKEND': os.getenv('BACKEND'),
+        'LOCATION': os.getenv("LOCATION"),
+    }
+}
