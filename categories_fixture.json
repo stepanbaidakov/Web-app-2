@@ -1,0 +1,18 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Техника",
+        "description": "Все Электроприборы"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "name": "Косметика",
+        "description": "Уходовая ксометика"
+    }
+}
+]

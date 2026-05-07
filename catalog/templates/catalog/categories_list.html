@@ -1,0 +1,15 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Категории{% endblock %}
+{% block header %}
+<h1 class="display-4">Skystore</h1>
+<p class="lead">Skystore - это отличный вариант хранения ваших плагинов и примеров кода, который вы бы хотели
+    продать</p>
+{% endblock %}
+{% block content %}
+<div class="row text-center">
+
+    {% for category in categories %}
+    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:category_detail' category.pk %}">{{category.name}}</a>
+    {% endfor %}
+</div>
+{% endblock %}
